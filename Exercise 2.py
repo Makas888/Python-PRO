@@ -38,24 +38,28 @@ class Group:
         if isinstance(student, Student):
             if len(self.list_group) < 10 and self.list_group.count(student) <= 1:
                 self.status = 'Набор открыт'
-                tmp_list = [student.__str__()]
-                self.list_group.append(tmp_list)
+                self.list_group.append(student.__dict__)
             if len(self.list_group) >= 10:
                 self.status = 'Набор группы закрыт'
 
     def delete_student(self, student: Student):
         if isinstance(student, Student):
-            self.list_group.remove([student.__str__()])
+            self.list_group.remove(student.__dict__)
             self.status = 'Набор открыт'
 
-    def search_student(self, surname):
-        pass
+    def search_student(self, surname: str):
+        if isinstance(surname, str):
+            for student in self.list_group:
+                if surname in student['surname']:
+                    return f'{dict(student)["name"]} {dict(student)["surname"]},' \
+                           f' {dict(student)["age"]} лет, {self.course}, из ' \
+                           f'{dict(student)["city"]}, специальность - {dict(student)["major"]}'
+            return '-1'
 
     def __str__(self):
-        res = f'{self.status} {self.course}:'
+        res = f'{self.status}! {self.course}:'
         for student in self.list_group:
-            for i in student:
-                res += f'\n{i}'
+            res += f'\n{student["surname"]} {student["name"][0]}.'
 
         return res
 
@@ -87,4 +91,4 @@ gr_1.delete_student(st_10)
 
 gr_1.add_student(st_10)
 
-print(gr_1)
+print(gr_1.search_student('Никифорова'))
