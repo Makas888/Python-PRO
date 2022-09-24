@@ -51,9 +51,7 @@ class Group:
         if isinstance(surname, str):
             for student in self.list_group:
                 if surname in student['surname']:
-                    return f'{dict(student)["name"]} {dict(student)["surname"]},' \
-                           f' {dict(student)["age"]} лет, {self.course}, из ' \
-                           f'{dict(student)["city"]}, специальность - {dict(student)["major"]}'
+                    return student
             return '-1'
 
     def __str__(self):
