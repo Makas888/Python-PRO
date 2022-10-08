@@ -101,8 +101,6 @@ class My_seq_iterator:
     """
 
     def __init__(self, seq):
-        if isinstance(seq, dict):
-            raise TypeError('Must be dict')
         self.seq = seq
         self.list = list(seq)
         self.index = 0
