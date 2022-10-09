@@ -68,9 +68,6 @@ class Order:
             return res
         raise IndexError('IndexError')
 
-    def __iter__(self):
-        return My_seq_iterator(self.products)
-
     def add_cart(self, value: Product, count=1):
         if not isinstance(value, Product):
             raise TypeError('value is not Product')
@@ -92,28 +89,6 @@ class Order:
         for product, count in self.products.items():
             res += f'{product}\n x {count} = {product.price * count}\n'
         return res
-
-
-class My_seq_iterator:
-    """
-    class iterator overload Order
-    Takes a dictionary, returns the next iterator of the dictionary.
-    """
-
-    def __init__(self, seq):
-        self.seq = seq
-        self.list = list(seq)
-        self.index = 0
-
-    def __iter__(self):
-        self.index = 0
-        return self.seq.get(self.index)
-
-    def __next__(self):
-        if self.index < len(self.seq):
-            self.index += 1
-            return [self.list[self.index - 1], self.seq.get(self.list[self.index - 1])]
-        raise StopIteration
 
 
 try:
