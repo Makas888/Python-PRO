@@ -48,6 +48,9 @@ class Order:
         self.buyer = buyer
         self.products = {}
 
+    def __iter__(self):
+        return My_seq_iterator(self.products)
+
     def __getitem__(self, item):
         if isinstance(item, int):
             if -len(self.products) <= item < len(self.products):
@@ -91,6 +94,28 @@ class Order:
         return res
 
 
+class My_seq_iterator:
+    """
+    class iterator overload Order
+    Takes a dictionary, returns the next iterator of the dictionary.
+    """
+
+    def __init__(self, seq):
+        self.seq = seq
+        self.list = list(seq)
+        self.index = 0
+
+    def __iter__(self):
+        self.index = 0
+        return self.seq.get(self.index)
+
+    def __next__(self):
+        if self.index < len(self.seq):
+            self.index += 1
+            return [self.list[self.index - 1], self.seq.get(self.list[self.index - 1])]
+        raise StopIteration
+
+
 try:
     bread = Product('bread', 22)
     milk = Product('milk', 34)
@@ -108,11 +133,13 @@ try:
     order_1.add_cart(meat)
 
     print(order_1)
-    print(f'  Total {order_1.summa_order()} UAH')
+    print(f'  Total {order_1.summa_order()} UAH\n')
 
-    for pr in order_1[:2]:
+    for pr in order_1[:3]:
         print(pr[0], 'x', pr[1])
 
     print(order_1[0][0])
+
+
 except Exception as error:
     print(error)
